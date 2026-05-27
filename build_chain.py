@@ -41,6 +41,9 @@ Rules:
         temperature=1
     )
 
+    # temperature controls creativity or randomness of the output generation.
+
+    # StrOutputParser extracts text content from model outputs such as AIMessage or AIMessageChunk and converts it into a plain string.
     parser = StrOutputParser()
 
     # LCEL - Langchain Expression Language.
