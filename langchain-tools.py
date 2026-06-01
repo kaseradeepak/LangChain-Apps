@@ -217,7 +217,7 @@ def run_customer_support_agent(user_query: str, max_steps: int = 5) -> str:
             "content": (
                 "You are a helpful customer support assistant. "
                 "Use tools when you need order data, policy data, or when "
-                "the user wants to create a refund ticket. "
+                "the user wants to create a refund ticket."
                 "If a tool returns an error, explain the issue clearly and "
                 "ask the user for the missing or corrected information."
             )
