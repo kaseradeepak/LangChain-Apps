@@ -1,7 +1,7 @@
 from langchain_openai import ChatOpenAI
 from langchain_core.tools import tool
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain.agents import AgentExecutor, create_tool_calling_agent
+from langchain_classic.agents import AgentExecutor, create_tool_calling_agent
 
 # Fake Database.
 ORDERS = {
@@ -132,4 +132,51 @@ agent = create_tool_calling_agent(
 )
 
 # Who is going to execute this agent ? => AgentExecutor
+agent_executor = AgentExecutor(
+    agent=agent,
+    tools=tools,
+    verbose=True,
+    max_iterations=3,
+    handle_parsing_errors=True,
+    return_intermediate_steps=True
+)
 
+# query = "What is the status of my order: ORD-101 ?"
+query = "For order id ORD-102, check the status, tell me the delivery estimate and refund amount, also book a flight for me  from delhi to Bangalore for 5th June."
+
+result = agent_executor.invoke(
+    {
+        "input" : query
+    }
+)
+
+print(result['output'])
+
+print("========================================================================")
+
+# print(result["intermediate_steps"])
+
+for index, step in enumerate(result["intermediate_steps"], start=1):
+    action, observation = step
+    print(f"Step-{index}")
+    print(f"Tool selected: {action.tool}")
+    print(f"Tool input: {action.tool_input}")
+    print(f"Tool observation:", observation)
+
+# return_intermediate_steps
+# max_iterations
+# verbose -> Shows the internal execution logs.
+# handle_parsing_errors -> handle paring erros while calling the tools. It gives a chance to the agent to recover if some issue happens during parsing. 
+
+# MessagesPlaceholder(variable_name="agent_scratchpad")
+# The agentscratchpad stores the tool calls and tool obervations.
+# agent_scractchpad is the agent's working memory during one request. It stores what tool was called and what result we received.
+# Without agent_scractchpad, agent cannot properly continue with multiple tools execution.
+
+# Step-Level Observability
+
+# Cohort Test Pack => Test Cases
+# A test pack is a collection of predefined queries to validate the agent behaviours.
+
+# For Agentic AI application, checking only input and putput is not enough.
+# Rather we need to check the complete journey (intermediate steps)
