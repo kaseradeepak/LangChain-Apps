@@ -93,18 +93,18 @@ agent_executor = AgentExecutor(
     verbose=True
 )
 
-chat_history = []
+# chat_history = []
 
 def ask_agent(user_input: str):
     response = agent_executor.invoke(
         {
             "input" : user_input,
-            "chat_history" : chat_history
+            "chat_history" : []
         }
     )
 
-    chat_history.append(HumanMessage(content=user_input))
-    chat_history.append(AIMessage(content=response['output']))
+    # chat_history.append(HumanMessage(content=user_input))
+    # chat_history.append(AIMessage(content=response['output']))
 
     return response['output']
 

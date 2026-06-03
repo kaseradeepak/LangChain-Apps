@@ -1,15 +1,17 @@
-# Build a small agent with **memory**
-# Which can remember the order id shared by the user in the previous messages.
-# Agent can call a order status tracking tool.
-# Agent can understand the user query and should be able to call the tools based on the query.
+# Manual append is okay for learning project but not good for production applications.
+# Manual append is prone to errors.
 
-# Compare both with-memory and without-memory scenarios for this agent.
+# Langchain provides RunnableWithMessageHistory to automatically: 
+# - Load the previous messages.
+# - Inject them into the prompt.
+# - append the user message and AI message after the response.
 
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.tools import tool
 from langchain_classic.agents import AgentExecutor, create_tool_calling_agent
+from langchain_core.chat_history import InMemoryChatMessageHistory
+from langchain_core.runnables.history import RunnableWithMessageHistory
 
 # Fake Database.
 ORDERS = {
@@ -93,33 +95,66 @@ agent_executor = AgentExecutor(
     verbose=True
 )
 
-chat_history = []
+# Session wise memory store
+store = {}
 
-def ask_agent(user_input: str):
-    response = agent_executor.invoke(
-        {
-            "input" : user_input,
-            "chat_history" : chat_history
+def get_session_history(session_id: str) -> InMemoryChatMessageHistory:
+    """
+    Returns the chat history for the given session or conversation.
+    """
+
+    if session_id not in store:
+        store[session_id] = InMemoryChatMessageHistory()
+    
+    return store[session_id]
+
+agent_with_memory = RunnableWithMessageHistory(
+    agent_executor,
+    get_session_history,
+    input_messages_key="input",
+    history_messages_key="chat_history",
+    output_messages_key="output"
+)
+
+def ask_agent(session_id: str, user_input: str):
+    response = agent_with_memory.invoke(
+        {"input" : user_input},
+        config={
+            "configurable": {
+                "session_id" : session_id
+            }
         }
     )
 
-    chat_history.append(HumanMessage(content=user_input))
-    chat_history.append(AIMessage(content=response['output']))
-
     return response['output']
 
-# Run agent on multiple turns
+session_id = "user-001"
 
 print("Turn-1")
-user_input = "Hi, my order id ORD-102."
+user_input = "Hi, My order is ORD-101."
 print("User Input: ", user_input)
-print("AI response: ", ask_agent(user_input))
+print("AI Response: ", ask_agent(session_id, user_input))
 
-print("====================================\n")
+print("===================================\n")
 
 print("Turn-2")
-user_input = "What the status of it ?"
+user_input = "what is the status of it ?"
 print("User Input: ", user_input)
-print("AI response: ", ask_agent(user_input))
+print("AI Response: ", ask_agent(session_id, user_input))
 
-print("====================================\n")
+# Show the stored memory
+print("Stored message in memory:")
+for message in store[session_id].messages:
+    print(type(message).__name__, " - ", message.content)
+
+# Rolling Conversational History
+# To pass the rolling history, we can set the value of  n_messages in MessagesPlaaceholder.
+# This keeps only defined number of messages in the history.
+
+# Full History vs Rolling History
+
+# Common Debug points / Errors while building agents with memory using Langchain.
+# Wrong placeholder name.
+# If we forget to append in the chat_history
+# append messages in wrong order.
+# Shares common memory across sessions or conversations.
