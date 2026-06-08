@@ -1,6 +1,7 @@
+# Step-1
 from pathlib import Path
 
-BASE_DIR=Path("/documents")
+BASE_DIR=Path("documents")
 #BASE_DIR.mkdir(parents=True, exist_ok=True)
 
 documents = {
@@ -81,6 +82,6 @@ after production starts.
 }
 
 for filename, content in documents.items():
-    file_path = BASE_DIR/file_path
+    file_path = BASE_DIR/filename
     file_path.write_text(content.strip(), encoding="utf-8")
 
