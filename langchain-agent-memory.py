@@ -118,7 +118,7 @@ print("AI response: ", ask_agent(user_input))
 print("====================================\n")
 
 print("Turn-2")
-user_input = "What the status of it ?"
+user_input = "What is the status of it ?"
 print("User Input: ", user_input)
 print("AI response: ", ask_agent(user_input))
 

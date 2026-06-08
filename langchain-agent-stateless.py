@@ -103,9 +103,6 @@ def ask_agent(user_input: str):
         }
     )
 
-    # chat_history.append(HumanMessage(content=user_input))
-    # chat_history.append(AIMessage(content=response['output']))
-
     return response['output']
 
 # Run agent on multiple turns
@@ -118,7 +115,7 @@ print("AI response: ", ask_agent(user_input))
 print("====================================\n")
 
 print("Turn-2")
-user_input = "What the status of it ?"
+user_input = "What is the status of it ?"
 print("User Input: ", user_input)
 print("AI response: ", ask_agent(user_input))
 
