@@ -187,4 +187,108 @@ def ask_agent(user_query: str) -> str:
 
     return answer
 
-    
+# query1 = "What is refund policy ?"
+# print("User Query: ", query1)
+# print("Response: ", ask_agent(query1))
+
+# query2 = "What is the status of ticket TKT-1001?"
+# print("User Query: ", query2)
+# print("Response: ", ask_agent(query2))
+
+# query3 = "What is the status of my TKT-1002 ? And tell me the refund policy."
+# print("User Query: ", query3)
+# print("Response: ", ask_agent(query3))
+
+# Documents
+# Chunking
+# Embeddings 
+# Storing embeddings into Vector Database.
+# Retrieval Tool - course policy tool
+# Get Ticket Status tool.
+# prompt template.
+# llm
+# agent 
+# agent_executor
+
+# agent_scratchpad : Maintains information regarding tool calling.
+# Without agent_scratchpad, the tool calling agent won't be able to track tool calls properly.
+
+# Test Package
+# Compact Eval pack: An eval pack is a small set of test cases used to test and validate the agent behaviour.
+
+eval_cases = [
+    {
+        "name": "refund_policy",
+        "input": "Can I get a refund after joining the course?",
+        "expected_tool": "course_policy_search",
+        "expected_keywords": ["7 days", "refund", "30 days"],
+        "failure_type_if_bad": "weak retrieval or missing retrieval"
+    },
+    {
+        "name": "ticket_status",
+        "input": "Check status of ticket TKT-1002",
+        "expected_tool": "get_ticket_status",
+        "expected_keywords": ["approved", "batch"],
+        "failure_type_if_bad": "wrong tool"
+    },
+    {
+        "name": "project_extension_policy",
+        "input": "What happens if I miss my backend project deadline?",
+        "expected_tool": "course_policy_search",
+        "expected_keywords": ["extension", "7 days", "deadline"],
+        "failure_type_if_bad": "weak retrieval"
+    },
+    {
+        "name": "policy_plus_ticket",
+        "input": "My ticket is TKT-1003. Why was my project extension rejected?",
+        "expected_tool": "both",
+        "expected_keywords": ["rejected", "extension", "already used"],
+        "failure_type_if_bad": "wrong tool or incomplete tool usage"
+    },
+    {
+        "name": "out_of_domain",
+        "input": "Who won yesterday's cricket match?",
+        "expected_tool": "none",
+        "expected_keywords": ["course", "support", "policy", "ticket"],
+        "failure_type_if_bad": "over-answering or hallucination"
+    }
+]
+
+# Execute the above eval test cases.
+for case in eval_cases:
+    print("Test Case name: ", case["name"])
+    print("Input: ", case["input"])
+    print("Expected tool call: ", case["expected_tool"])
+
+    output = ask_agent(case["input"])
+
+    print("Agent Output: ", output)
+
+    # Try to validate expected_keywords
+    # Try to validate expected_tool call as well. 
+
+
+# Agentic RAG
+# Some common failures while executing the agentic RAG
+
+# 1. Wrong tool call.
+# Fix: Improve tool description. Check prompt again.
+
+# 2. Weak Retrieval
+# Embeddings
+# chunks size too large/small
+# chunk overlap
+# K is too low 
+# Similarity search is not enough.
+
+# 3. Over Refusal
+# too strict prompt / restrictions.
+# If we have asked the agent to refuse aggressively 
+# Tool description 
+
+# 4. Missing Memory.
+# Agent won't be able to retain the context.
+# chat_history
+# agent_scratchpad
+# Not appending chat_history properly.
+
