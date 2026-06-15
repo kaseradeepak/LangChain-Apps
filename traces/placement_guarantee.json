@@ -1,0 +1,61 @@
+{
+  "case_id": "placement_guarantee",
+  "input": "Does this course guarantee that I will get a job?",
+  "started_at_ms": 1781539320031,
+  "events": [
+    {
+      "time_ms": 1781539321803,
+      "type": "tool_start",
+      "payload": {
+        "name": "search_course_policy",
+        "input": {
+          "query": "job guarantee placement guarantee career support does course guarantee job"
+        }
+      }
+    },
+    {
+      "time_ms": 1781539321803,
+      "type": "tool_end",
+      "payload": {
+        "name": "search_course_policy",
+        "output": "[DOC_PLACEMENT] Career Support Policy: The program provides career support, mock interviews, resume reviews, and referral guidance. The program does not guarantee a job, salary, promotion, or interview shortlist.\n\n[DOC_PAUSE] Course Pause Policy: Learners can pause their course once for up to 14 calendar days. The pause request must be approved by the academic coordinator.",
+        "latency_ms": 0
+      }
+    }
+  ],
+  "tool_calls": [
+    {
+      "name": "search_course_policy",
+      "input": {
+        "query": "job guarantee placement guarantee career support does course guarantee job"
+      },
+      "output_preview": [
+        "DOC_PLACEMENT",
+        "DOC_PAUSE"
+      ],
+      "latency_ms": 0
+    }
+  ],
+  "retrievals": [
+    {
+      "query": "job guarantee placement guarantee career support does course guarantee job",
+      "documents": [
+        {
+          "doc_id": "DOC_PLACEMENT",
+          "title": "Career Support Policy",
+          "score": 5,
+          "text": "The program provides career support, mock interviews, resume reviews, and referral guidance. The program does not guarantee a job, salary, promotion, or interview shortlist."
+        },
+        {
+          "doc_id": "DOC_PAUSE",
+          "title": "Course Pause Policy",
+          "score": 1,
+          "text": "Learners can pause their course once for up to 14 calendar days. The pause request must be approved by the academic coordinator."
+        }
+      ]
+    }
+  ],
+  "final_response": "No. The course provides career support such as mock interviews, resume reviews, and referral guidance, but it does **not** guarantee a job, salary, promotion, or interview shortlist. [DOC_PLACEMENT]",
+  "error": null,
+  "latency_ms": 3859
+}

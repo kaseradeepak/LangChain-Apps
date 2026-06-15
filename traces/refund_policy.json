@@ -1,0 +1,68 @@
+{
+  "case_id": "refund_policy",
+  "input": "Can I get a full refund if I cancel 10 days before the course starts?",
+  "started_at_ms": 1781539311774,
+  "events": [
+    {
+      "time_ms": 1781539314554,
+      "type": "tool_start",
+      "payload": {
+        "name": "search_course_policy",
+        "input": {
+          "query": "refund policy full refund cancel 10 days before course starts"
+        }
+      }
+    },
+    {
+      "time_ms": 1781539314554,
+      "type": "tool_end",
+      "payload": {
+        "name": "search_course_policy",
+        "output": "[DOC_REFUND] Refund Policy: Students are eligible for a 100% refund if they cancel at least 7 calendar days before the cohort start date. Students are eligible for a 50% refund within the first 3 calendar days after the cohort starts. No refund is available after the third calendar day.\n\n[DOC_PAUSE] Course Pause Policy: Learners can pause their course once for up to 14 calendar days. The pause request must be approved by the academic coordinator.\n\n[DOC_PROJECTS] Project Submission Policy: All pr",
+        "latency_ms": 0
+      }
+    }
+  ],
+  "tool_calls": [
+    {
+      "name": "search_course_policy",
+      "input": {
+        "query": "refund policy full refund cancel 10 days before course starts"
+      },
+      "output_preview": [
+        "DOC_REFUND",
+        "DOC_PAUSE",
+        "DOC_PROJECTS"
+      ],
+      "latency_ms": 0
+    }
+  ],
+  "retrievals": [
+    {
+      "query": "refund policy full refund cancel 10 days before course starts",
+      "documents": [
+        {
+          "doc_id": "DOC_REFUND",
+          "title": "Refund Policy",
+          "score": 6,
+          "text": "Students are eligible for a 100% refund if they cancel at least 7 calendar days before the cohort start date. Students are eligible for a 50% refund within the first 3 calendar days after the cohort starts. No refund is available after the third calendar day."
+        },
+        {
+          "doc_id": "DOC_PAUSE",
+          "title": "Course Pause Policy",
+          "score": 3,
+          "text": "Learners can pause their course once for up to 14 calendar days. The pause request must be approved by the academic coordinator."
+        },
+        {
+          "doc_id": "DOC_PROJECTS",
+          "title": "Project Submission Policy",
+          "score": 1,
+          "text": "All projects must be submitted through the learning portal. Submissions through email or chat are not considered official."
+        }
+      ]
+    }
+  ],
+  "final_response": "Yes. If you cancel 10 days before the course starts, you are eligible for a 100% refund because cancellations made at least 7 calendar days before the cohort start date qualify for a full refund. [DOC_REFUND]",
+  "error": null,
+  "latency_ms": 5142
+}

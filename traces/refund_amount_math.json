@@ -1,0 +1,42 @@
+{
+  "case_id": "refund_amount_math",
+  "input": "If my fee is 20000 and the refund percentage is 75%, how much refund will I get?",
+  "started_at_ms": 1781539323890,
+  "events": [
+    {
+      "time_ms": 1781539325465,
+      "type": "tool_start",
+      "payload": {
+        "name": "calculate_refund_amount",
+        "input": {
+          "fee_amount": 20000.0,
+          "refund_percent": 75.0
+        }
+      }
+    },
+    {
+      "time_ms": 1781539325465,
+      "type": "tool_end",
+      "payload": {
+        "name": "calculate_refund_amount",
+        "output": "Refund amount = 20000.0 * 75.0% = 15000.00",
+        "latency_ms": 0
+      }
+    }
+  ],
+  "tool_calls": [
+    {
+      "name": "calculate_refund_amount",
+      "input": {
+        "fee_amount": 20000.0,
+        "refund_percent": 75.0
+      },
+      "output_preview": "Refund amount = 20000.0 * 75.0% = 15000.00",
+      "latency_ms": 0
+    }
+  ],
+  "retrievals": [],
+  "final_response": "Your refund amount would be **15,000**.",
+  "error": null,
+  "latency_ms": 3037
+}

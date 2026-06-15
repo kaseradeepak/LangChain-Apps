@@ -1,0 +1,68 @@
+{
+  "case_id": "pause_policy",
+  "input": "Can I pause my course for two weeks?",
+  "started_at_ms": 1781539316917,
+  "events": [
+    {
+      "time_ms": 1781539318806,
+      "type": "tool_start",
+      "payload": {
+        "name": "search_course_policy",
+        "input": {
+          "query": "pause course two weeks pause policy"
+        }
+      }
+    },
+    {
+      "time_ms": 1781539318807,
+      "type": "tool_end",
+      "payload": {
+        "name": "search_course_policy",
+        "output": "[DOC_PAUSE] Course Pause Policy: Learners can pause their course once for up to 14 calendar days. The pause request must be approved by the academic coordinator.\n\n[DOC_REFUND] Refund Policy: Students are eligible for a 100% refund if they cancel at least 7 calendar days before the cohort start date. Students are eligible for a 50% refund within the first 3 calendar days after the cohort starts. No refund is available after the third calendar day.\n\n[DOC_PROJECTS] Project Submission Policy: All pr",
+        "latency_ms": 1
+      }
+    }
+  ],
+  "tool_calls": [
+    {
+      "name": "search_course_policy",
+      "input": {
+        "query": "pause course two weeks pause policy"
+      },
+      "output_preview": [
+        "DOC_PAUSE",
+        "DOC_REFUND",
+        "DOC_PROJECTS"
+      ],
+      "latency_ms": 1
+    }
+  ],
+  "retrievals": [
+    {
+      "query": "pause course two weeks pause policy",
+      "documents": [
+        {
+          "doc_id": "DOC_PAUSE",
+          "title": "Course Pause Policy",
+          "score": 3,
+          "text": "Learners can pause their course once for up to 14 calendar days. The pause request must be approved by the academic coordinator."
+        },
+        {
+          "doc_id": "DOC_REFUND",
+          "title": "Refund Policy",
+          "score": 1,
+          "text": "Students are eligible for a 100% refund if they cancel at least 7 calendar days before the cohort start date. Students are eligible for a 50% refund within the first 3 calendar days after the cohort starts. No refund is available after the third calendar day."
+        },
+        {
+          "doc_id": "DOC_PROJECTS",
+          "title": "Project Submission Policy",
+          "score": 1,
+          "text": "All projects must be submitted through the learning portal. Submissions through email or chat are not considered official."
+        }
+      ]
+    }
+  ],
+  "final_response": "Yes. You can pause your course once for up to 14 calendar days, but the request must be approved by the academic coordinator. [DOC_PAUSE]",
+  "error": null,
+  "latency_ms": 3113
+}
