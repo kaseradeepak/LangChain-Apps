@@ -64,10 +64,12 @@ rag_chain = (
 
 # RunnablePassthrough -> This means, pass the original question as it is to the retriever.
 
-question = "What is the return window for baby items?"
+question = "What is the return window for electronics items?"
 
 answer = rag_chain.invoke(question)
 
 print(answer)
 
 # Citation & Sources
+
+# Retrieval Tuning - Chunk Size, Chunk Overlap, K value, Search algorithm
