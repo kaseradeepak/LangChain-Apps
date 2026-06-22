@@ -99,6 +99,7 @@ def search_hr_policy(query:  str):
         
     return results
 
+# 5. Tool to get the employee profile
 @tool
 def get_employee_profile(employee_id: str):
     """
@@ -120,6 +121,7 @@ def get_employee_profile(employee_id: str):
         **employee
     }
 
+# 6. Tool to get the mandatory trainings for a given role
 @tool
 def get_training_recommendations(role: str):
     """
@@ -142,3 +144,64 @@ def get_training_recommendations(role: str):
         "mandatory trainings" : common_trainings,
         "role specific trainings" : role_specific_trainings.get(role)
     }
+
+tools = [search_hr_policy, get_employee_profile, get_training_recommendations]
+
+# 7. System Prompt
+SYSTEM_PROMPT = """
+You are an HR onboarding assistant for a company.
+
+Your responsibilities:
+1. Help new employees understand onboarding steps, leave policy, benefits, training, and IT setup.
+2. Use HR policy search whenever the answer depends on company policy.
+3. Use employee profile lookup whenever the answer needs personalization.
+4. Never invent policy. If evidence is not found, say that HR confirmation is required.
+5. Always include evidence source IDs when using policy information.
+6. Keep the answer clear, professional, and concise.
+
+Response format:
+- Answer
+- Evidence used
+- Actions taken
+- Open risks / escalation needed
+"""
+
+# 8. LLM
+MODEL_NAME = 'gpt-5.2'
+
+# 9. Create the agent
+agent = create_agent(
+    model=MODEL_NAME,
+    tools=tools,
+    system_prompt=SYSTEM_PROMPT
+)
+
+# 10. Invoke the agent.
+def ask_agent(user_query: str):
+    """
+    Invokes the agent for the user query and get the final response.
+    """
+    result = agent.invoke(
+        {
+            "messages" : [
+                {
+                    "role" : "user",
+                    "content" : user_query
+                }
+            ]
+        }
+    )
+
+    final_message = result["messages"][-1].content
+    return final_message
+
+# Execute agent with user queries.
+query = "How many leaves does a full-time employee gets ?"
+
+answer = ask_agent(query)
+
+print(answer)
+
+# Task - Try to integrate Human Feedback in the above HR Assistant Agent.
+
+# Evaluation Harness
