@@ -17,8 +17,7 @@ prompt = PromptTemplate.from_template(
     """
 )
 
-# Without StrOutputParser, model returns the complete response object.
-# With StrOutputParser, we just get the content string from the response. 
+# Without StrOutputParser, model returns the complete response object. 
 output_parser = StrOutputParser()
 
 # prompt -> llm -> output_parser
